@@ -194,9 +194,9 @@ namespace demo {
   }
 
   void Initialize(Local<Object> exports) {
-    NODE_SET_METHOD(exports, "Encrypt", Encrypt);
-    NODE_SET_METHOD(exports, "Decrypt", Decrypt);
-    NODE_SET_METHOD(exports, "Hash", Hash);
+    NODE_SET_METHOD(exports, "encrypt", Encrypt);
+    NODE_SET_METHOD(exports, "decrypt", Decrypt);
+    NODE_SET_METHOD(exports, "hash", Hash);
   }
 
   NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize)
