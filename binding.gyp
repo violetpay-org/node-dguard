@@ -2,7 +2,7 @@
   'targets': [
     {
       'target_name': 'dguard',
-      'sources': [ 'src/dguard.cc' ],
+      'sources': [ 'src/dguard.cc', 'src/agent.cc' ],
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions' ],
       'include_dirs': ["<!(node -p \"require('node-addon-api').include_dir\")"],
