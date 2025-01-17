@@ -1,7 +1,15 @@
+const dguard = require('./build/Release/dguard');
 
-const addon_path = process.env.EAP_HOME;
-const addon = require(addon_path + '/node-c-addon/build/Release/addon');
+dguard.init();
 
-console.log(addon.Encrypt("CRYPTO", "ENC", "1111111111118"));
-console.log(addon.Decrypt("CRYPTO", "ENC", "3fNzyEOkA412Pjuvu13GgQ=="));
-console.log(addon.Hash("CRYPTO", "PWD", "1111111111118"));
+dguard.encrypt("CRYPTO", "ENC", "1111111111118").then((res) => {
+    console.log(res);
+})
+
+dguard.decrypt("CRYPTO", "ENC", "SPdPvcY2NnpMI2wdR8KgYw==").then((res) => {
+    console.log(res);
+})
+
+dguard.hash("CRYPTO", "HASH", "1111111111118").then((res) => {
+    console.log(res);
+})
