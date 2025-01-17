@@ -69,6 +69,62 @@ namespace dguard {
         return deferred.Promise();
     }
 
+    Napi::Value Decrypt(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
+
+        // 파라미터 검증
+        if (info.Length() != 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsString()) {
+            Napi::TypeError::New(env, "String expected").ThrowAsJavaScriptException();
+            return env.Undefined();
+        }
+
+        // 파라미터 가져오기
+        const std::string tableName = info[0].As<Napi::String>().Utf8Value();
+        const std::string columnName = info[1].As<Napi::String>().Utf8Value();
+        const std::string input = info[2].As<Napi::String>().Utf8Value();
+
+        auto deferredDecrypt = [=]() {
+            return Agent::Decrypt(tableName.c_str(), columnName.c_str(), input.c_str());
+        };
+
+        // Promise 생성
+        Napi::Promise::Deferred deferred = Napi::Promise::Deferred::New(env);
+
+        auto* worker = new FunctionPromiseWorker(deferred, deferredDecrypt);
+        // 비동기 작업 큐에 보냄
+        worker->Queue();
+
+        return deferred.Promise();
+    }
+
+    Napi::Value Hash(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
+
+        // 파라미터 검증
+        if (info.Length() != 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsString()) {
+            Napi::TypeError::New(env, "String expected").ThrowAsJavaScriptException();
+            return env.Undefined();
+        }
+
+        // 파라미터 가져오기
+        const std::string tableName = info[0].As<Napi::String>().Utf8Value();
+        const std::string columnName = info[1].As<Napi::String>().Utf8Value();
+        const std::string input = info[2].As<Napi::String>().Utf8Value();
+
+        auto deferredHash = [=]() {
+            return Agent::Hash(tableName.c_str(), columnName.c_str(), input.c_str());
+        };
+
+        // Promise 생성
+        Napi::Promise::Deferred deferred = Napi::Promise::Deferred::New(env);
+
+        auto* worker = new FunctionPromiseWorker(deferred, deferredHash);
+        // 비동기 작업 큐에 보냄
+        worker->Queue();
+
+        return deferred.Promise();
+    }
+
     Napi::Value Init(const Napi::CallbackInfo& info) {
         try {
             Agent::Init();
@@ -91,6 +147,8 @@ namespace dguard {
         exports.Set(Napi::String::New(env, "init"), Napi::Function::New(env, Init));
         exports.Set(Napi::String::New(env, "close"), Napi::Function::New(env, Close));
         exports.Set(Napi::String::New(env, "encrypt"), Napi::Function::New(env, Encrypt));
+        exports.Set(Napi::String::New(env, "decrypt"), Napi::Function::New(env, Decrypt));
+        exports.Set(Napi::String::New(env, "hash"), Napi::Function::New(env, Hash));
         return exports;
     }
 
