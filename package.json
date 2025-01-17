@@ -2,16 +2,23 @@
   "name": "dguard",
   "version": "1.0.0",
   "main": "index.js",
+  "types": "module.d.ts",
   "scripts": {
-    "install": "cmake-js compile"
+    "install": "cmake-js compile",
+    "build": "cmake-js compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/violetpay-org/node-dguard"
+  },
+  "binary": {
+    "napi_versions": [
+      7
+    ]
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "typescript": "*"
-  },
+  "author": "point3 dev team",
+  "description": "dguard nodejs addon",
   "dependencies": {
     "bindings": "^1.5.0",
     "cmake-js": "^7.3.0",

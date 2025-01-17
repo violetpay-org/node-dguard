@@ -1,4 +1,4 @@
-const dguard = require('./build/Release/dguard');
+const dguard = require('./index');
 
 dguard.init();
 
