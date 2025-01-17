@@ -10,6 +10,6 @@ dguard.decrypt("CRYPTO", "ENC", "SPdPvcY2NnpMI2wdR8KgYw==").then((res) => {
     console.log(res);
 })
 
-dguard.hash("CRYPTO", "HASH", "1111111111118").then((res) => {
+dguard.hash("CRYPTO", "PWD", "1111111111118").then((res) => {
     console.log(res);
 })
