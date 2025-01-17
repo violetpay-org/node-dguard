@@ -1,17 +1,34 @@
 {
   "name": "dguard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
+  "types": "module.d.ts",
   "scripts": {
-    "configure": "node-gyp configure",
-    "build": "node-gyp build"
+    "install": "cmake-js compile",
+    "build": "cmake-js compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/violetpay-org/node-dguard"
+  },
+  "binary": {
+    "napi_versions": [
+      7
+    ]
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "typescript": "*",
-    "node-gyp": "^11.0.0"
-  }
+  "author": "point3",
+  "description": "dguard nodejs addon",
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "cmake-js": "^7.3.0",
+    "node-addon-api": "^8.3.0"
+  },
+  "files": [
+    "/src",
+    "/CMakeLists.txt",
+    "/index.js",
+    "/binding.gyp",
+    "/module.d.ts"
+  ]
 }
