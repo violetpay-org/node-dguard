@@ -17,11 +17,18 @@
     ]
   },
   "keywords": [],
-  "author": "point3 dev team",
+  "author": "point3",
   "description": "dguard nodejs addon",
   "dependencies": {
     "bindings": "^1.5.0",
     "cmake-js": "^7.3.0",
     "node-addon-api": "^8.3.0"
-  }
+  },
+  "files": [
+    "/src",
+    "/CMakeLists.txt",
+    "/index.js",
+    "/binding.gyp",
+    "/module.d.ts"
+  ]
 }
