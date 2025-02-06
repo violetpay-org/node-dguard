@@ -7,10 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project (dguard)
 
 add_definitions(-DNAPI_VERSION=4)
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(${CMAKE_JS_INC})
 
 file(GLOB SOURCE_FILES "src/*.cc")
+file(GLOB HEADER_FILES "src/*.h")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")

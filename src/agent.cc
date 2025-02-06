@@ -3,13 +3,31 @@
 #include <dlfcn.h> // Linux/MacOS용 (Windows에서는 <windows.h> 사용)
 #include <mutex> // 쓰레드 안전성 확보
 #include <string>
+#include <unordered_map>
 #include <vector>
+
+const std::string AGENT_ENCRYPTION_ERROR = "DG_ENC_ERROR";
+const std::string AGENT_DECRYPTION_ERROR = "DG_DEC_ERROR";
+const std::string AGENT_HASH_ERROR = AGENT_ENCRYPTION_ERROR;
+
+enum class AgentError {
+    None,
+    EncryptionError,
+    DecryptionError,
+    HashError
+};
+
+const std::unordered_map<std::string, AgentError> AgentErrors = {
+    {AGENT_ENCRYPTION_ERROR, AgentError::EncryptionError},
+    {AGENT_DECRYPTION_ERROR, AgentError::DecryptionError},
+    {AGENT_HASH_ERROR, AgentError::HashError}, // HashError는 EncryptionError와 동일한 에러 메시지를 뱉음
+};
 
 namespace Agent {
     void *library = nullptr;
     std::mutex library_mutex;
 
-    typedef char* (*AgentFunc)(const char*, const char*, const char*, char*);
+    typedef int (*AgentFunc)(const char*, const char*, const char*, char*);
     AgentFunc dg_encrypt = nullptr;
     AgentFunc dg_decrypt = nullptr;
     AgentFunc dg_hash = nullptr;
@@ -54,25 +72,52 @@ namespace Agent {
     }
 
     std::string Encrypt(const char *tableName, const char *columnName, const char *input) {
+        const auto it = AgentErrors.find(std::string(input));
+        if (it != AgentErrors.end()) {
+            throw std::runtime_error("Encrypt error, You must not use reserved error string as input: " + std::string(input));
+        }
+
         std::vector<char> result(5000);
 
         dg_encrypt(tableName, columnName, input, result.data());
+
+        if (result.data() == AGENT_ENCRYPTION_ERROR) {
+            throw std::runtime_error("Encrypt error, tableName: " + std::string(tableName) + ", columnName: " + std::string(columnName) + ", input: " + std::string(input));
+        }
 
         return {result.data()};
     }
 
     std::string Decrypt(const char *tableName, const char *columnName, const char *input) {
+        const auto it = AgentErrors.find(std::string(input));
+        if (it != AgentErrors.end()) {
+            throw std::runtime_error("Decrypt error, You must not use reserved error string as input: " + std::string(input));
+        }
+
         std::vector<char> result(5000);
 
         dg_decrypt(tableName, columnName, input, result.data());
+
+        if (result.data() == AGENT_DECRYPTION_ERROR) {
+            throw std::runtime_error("Decrypt error, tableName: " + std::string(tableName) + ", columnName: " + std::string(columnName) + ", input: " + std::string(input));
+        }
 
         return {result.data()};
     }
 
     std::string Hash(const char *tableName, const char *columnName, const char *input) {
+        const auto it = AgentErrors.find(std::string(input));
+        if (it != AgentErrors.end()) {
+            throw std::runtime_error("Hash error, You must not use reserved error string as input: " + std::string(input));
+        }
+
         std::vector<char> result(5000);
 
         dg_hash(tableName, columnName, input, result.data());
+
+        if (result.data() == AGENT_HASH_ERROR) {
+            throw std::runtime_error("Hash error, tableName: " + std::string(tableName) + ", columnName: " + std::string(columnName) + ", input: " + std::string(input));
+        }
 
         return {result.data()};
     }
