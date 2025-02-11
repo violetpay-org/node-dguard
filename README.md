@@ -28,7 +28,7 @@ xcode-select --install
 ### 2. Install the package
 
 ```bash
-npm i @point3/dguard
+npm i dguard
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 {
-  "name": "@point3/dguard",
+  "name": "dguard",
   "version": "1.0.5",
   "main": "index.js",
   "types": "module.d.ts",
