@@ -2,7 +2,7 @@
 
 ## Installation
 
-### 1. Install OpenSSL
+### 1. Install Clang, OpenSSL
 
 * CentOS, Fedora, RHEL
 ```bash
