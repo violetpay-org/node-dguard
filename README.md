@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm i dguard
+npm i @point3/dguard
 ```
 
 ## Usage
