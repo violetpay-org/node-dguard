@@ -42,7 +42,7 @@ namespace dguard {
 
     // 메인 스레드에서만 실행
     Napi::Value Encrypt(const Napi::CallbackInfo& info) {
-        Napi::Env env = info.Env();
+        auto env = info.Env();
 
         // 파라미터 검증
         if (info.Length() != 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsString()) {
@@ -70,7 +70,7 @@ namespace dguard {
     }
 
     Napi::Value Decrypt(const Napi::CallbackInfo& info) {
-        Napi::Env env = info.Env();
+        auto env = info.Env();
 
         // 파라미터 검증
         if (info.Length() != 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsString()) {
@@ -98,7 +98,7 @@ namespace dguard {
     }
 
     Napi::Value Hash(const Napi::CallbackInfo& info) {
-        Napi::Env env = info.Env();
+        auto env = info.Env();
 
         // 파라미터 검증
         if (info.Length() != 3 || !info[0].IsString() || !info[1].IsString() || !info[2].IsString()) {
@@ -126,8 +126,32 @@ namespace dguard {
     }
 
     Napi::Value Init(const Napi::CallbackInfo& info) {
+        auto env = info.Env();
+        bool isLocal = false;
+
+        if (info.Length() > 1) {
+            Napi::TypeError::New(env, "one or zero parameter expected").ThrowAsJavaScriptException();
+            return env.Undefined();
+        }
+
+        if (info.Length() == 1 && !info[0].IsObject()) {
+            Napi::TypeError::New(env, "Object expected").ThrowAsJavaScriptException();
+            return env.Undefined();
+        }
+
+        if (info.Length() == 1 && info[0].IsObject()) {
+            Napi::Object options = info[0].As<Napi::Object>();
+            Napi::Value local = options.Get("local");
+            if (!local.IsBoolean()) {
+                Napi::TypeError::New(env, "local field expected boolean").ThrowAsJavaScriptException();
+                return env.Undefined();
+            }
+
+            isLocal = local.As<Napi::Boolean>().Value();
+        }
+
         try {
-            Agent::Init();
+            Agent::Init(isLocal);
         } catch (const std::exception& e) {
             Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
         }
@@ -135,6 +159,13 @@ namespace dguard {
     }
 
     Napi::Value Close(const Napi::CallbackInfo& info) {
+        auto env = info.Env();
+
+        if (info.Length() != 0) {
+            Napi::TypeError::New(env, "No arguments expected").ThrowAsJavaScriptException();
+            return env.Undefined();
+        }
+
         try {
             Agent::Close();
         } catch (const std::exception& e) {
