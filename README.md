@@ -14,6 +14,17 @@ sudo yum install openssl-devel
 sudo apt-get install libssl-dev
 ```
 
+* macOS
+```bash
+xcode-select --install 
+```
+
+If you have a problem although your mac already installed xcode-select, you can try this command (not responsible for any damage):
+```bash
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+```
+
 ### 2. Install the package
 
 ```bash
