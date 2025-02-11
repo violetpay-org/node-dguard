@@ -11,7 +11,7 @@ declare module 'dguard' {
      * DGuard를 초기화합니다.
      * @param options
      */
-    export function init(options?: { local: boolean }): void;
+    export function init(options?: { local?: boolean }): void;
 
     /**
      * value를 암호화합니다.
