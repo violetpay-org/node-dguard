@@ -4,7 +4,7 @@ cmake_policy(SET CMP0042 NEW)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project (dguard)
+project (dguard LANGUAGES CXX)
 
 add_definitions(-DNAPI_VERSION=3)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
