@@ -1,15 +1,14 @@
 const dguard = require('./index');
 
-dguard.init();
+dguard.init({ local: false });
 
-dguard.encrypt("CRYPTO", "ENC", "1111111111118").then((res) => {
-    console.log(res);
-})
+async function bootstrap() {
+    const enc = await dguard.encrypt("CRYPTO", "ENC", "1111111111118")
+    console.log("enc:", enc)
 
-dguard.decrypt("CRYPTO", "ENC", "SPdPvcY2NnpMI2wdR8KgYw==").then((res) => {
-    console.log(res);
-})
+    console.log("dec:", await dguard.decrypt("CRYPTO", "ENC", enc))
 
-dguard.hash("CRYPTO", "PWD", "1111111111118").then((res) => {
-    console.log(res);
-})
+    console.log("hash:", await dguard.hash("CRYPTO", "PWD", "1111111111118"))
+}
+
+bootstrap();
