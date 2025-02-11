@@ -2,6 +2,20 @@
 
 ## Installation
 
+### 1. Install OpenSSL
+
+* CentOS, Fedora, RHEL
+```bash
+sudo yum install openssl-devel
+```
+
+* Ubuntu
+```bash
+sudo apt-get install libssl-dev
+```
+
+### 2. Install the package
+
 ```bash
 npm i @point3/dguard
 ```
