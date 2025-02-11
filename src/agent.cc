@@ -2,6 +2,7 @@
 #include <string>
 #include "prod_agent.h"
 #include "memory_agent.h"
+#include <atomic>
 
 namespace Agent {
     std::atomic<bool> initializedFlag;
