@@ -1,6 +1,6 @@
 const dguard = require('./index');
 
-dguard.init({ local: false });
+dguard.init({ local: true });
 
 async function bootstrap() {
     const enc = await dguard.encrypt("CRYPTO", "ENC", "1111111111118")

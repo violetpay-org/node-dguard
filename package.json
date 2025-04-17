@@ -1,6 +1,6 @@
 {
   "name": "dguard",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "index.js",
   "types": "module.d.ts",
   "scripts": {
